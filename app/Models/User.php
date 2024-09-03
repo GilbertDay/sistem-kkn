@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
 
     /**
@@ -58,4 +59,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    protected function type(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => ['user', 'admin', 'manager'][$value],
+        );
+    }
 }
