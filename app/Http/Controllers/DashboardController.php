@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DataFeed;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $dataFeed = new DataFeed();
+        $users = User::all();
 
-        return view('pages/admin/dashboard');
+        return view('pages/admin/users',compact('users'));
     }
 
     /**

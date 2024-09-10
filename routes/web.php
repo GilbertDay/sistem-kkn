@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,12 @@ Route::redirect('/', 'login');
 
 Route::middleware(['auth:sanctum', 'user-access:0', 'verified'])->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::post('/add-users', [UserController::class, 'tambahUser'])->name('addUsers');
+    Route::post('/edit-users', [UserController::class, 'editUser'])->name('editUsers');
+    Route::post('/hapus-users', [UserController::class, 'hapusUser'])->name('hapusUsers');
+
+
     Route::get('/dashboard/analytics', [DashboardController::class, 'analytics'])->name('analytics');
     Route::get('/dashboard/fintech', [DashboardController::class, 'fintech'])->name('fintech');
     Route::get('/ecommerce/customers', [CustomerController::class, 'index'])->name('customers');
