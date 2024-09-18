@@ -9,8 +9,8 @@
             <select id="roleFilter" class="form-select">
                 <option value="all">All</option>
                 <option value="User">User</option>
+                <option value="Dosen">Dosen</option>
                 <option value="Admin">Admin</option>
-                <option value="LPPM">LPPM</option>
             </select>
         </div>
 
@@ -18,7 +18,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <!-- <th scope="col">No</th> -->
+                    <th scope="col">No</th>
                     <th scope="col">Nama</th>
                     <th scope="col">Email</th>
                     <th scope="col">Terakhir Diubah</th>
@@ -28,12 +28,12 @@
             </thead>
             <tbody>
                 @foreach($users as $user=>$u)
-                <tr data-role="{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Admin' : 'LPPM')}}">
-                    <!-- <th scope="row">{{++$user}}</th> -->
+                <tr data-role="{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Dosen' : 'Admin')}}">
+                    <td>{{ $user + 1 }}</td>
                     <td>{{$u->name}}</td>
                     <td>{{$u->email}}</td>
                     <td>{{$u->updated_at}}</td>
-                    <td>{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Admin' : 'LPPM')}}</td>
+                    <td>{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Dosen' : 'Admin')}}</td>
                     <td>
                         <!-- <a type="button" class="p-2 text-black bg-yellow-400 rounded-lg"><i
                                 class="mr-1 fa-solid fa-eye"></i>View</a> -->
@@ -83,8 +83,8 @@
                             <label for="role" class="form-label">Jenis User</label>
                             <select class="form-select" id="role" name="role">
                                 <option value="0">User</option>
-                                <option value="1">Admin</option>
-                                <option value="2">LPPM</option>
+                                <option value="1">Dosen</option>
+                                <option value="2">Admin</option>
                             </select>
                         </div>
                     </div>
@@ -131,8 +131,8 @@
                             <label for="role" class="form-label">Jenis User</label>
                             <select class="form-select" id="role" name="role">
                                 <option value="0">User</option>
-                                <option value="1">Admin</option>
-                                <option value="2">LPPM</option>
+                                <option value="1">Dosen</option>
+                                <option value="2">Admin</option>
                             </select>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="hapusUsersLabel">Edit Users</h5>
+                    <h5 class="modal-title" id="hapusUsersLabel">Hapus Users</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('hapusUsers') }}" method="POST">
@@ -169,17 +169,19 @@
     </div>
     @endforeach
 
-
     <script>
         document.getElementById('roleFilter').addEventListener('change', function () {
             const selectedRole = this.value;
             const rows = document.querySelectorAll('table tbody tr');
+            let rowCount = 0; // Initialize row count
 
             rows.forEach(row => {
                 const role = row.getAttribute('data-role');
 
                 if (selectedRole === 'all' || role === selectedRole) {
                     row.style.display = '';
+                    rowCount++;
+                    row.querySelector('td:first-child').textContent = rowCount; // Update "No" column
                 } else {
                     row.style.display = 'none';
                 }

@@ -18,6 +18,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
+
+
+
     <!-- Modal
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
@@ -43,7 +46,34 @@
         }
 
     </script>
+    <!-- jQuery (necessary for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
+<!-- <style>
+    .select2-container--open {
+        z-index: 9999 !important;
+        /* Ensures the open dropdown has a high z-index */
+    }
+
+    .select2-dropdown {
+        z-index: 9999 !important;
+        /* Ensures the dropdown is displayed in front */
+    }
+
+    .select2-search__field {
+        z-index: 9999 !important;
+        /* Ensures the input field is clickable */
+    }
+
+</style> -->
+
 
 <body class="antialiased text-gray-600 bg-gray-100 font-inter dark:bg-gray-900 dark:text-gray-400"
     :class="{ 'sidebar-expanded': sidebarExpanded }"
@@ -78,6 +108,12 @@
 
     </div>
     <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+    <!-- <script>
+        $('#tambahKelompoks').on('shown.bs.modal', function () {
+            $(this).off('focusin.bs.modal');
+        });
+
+    </script> -->
 
     @livewireScriptConfig
 </body>
