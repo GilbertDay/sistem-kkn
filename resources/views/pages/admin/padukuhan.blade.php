@@ -26,8 +26,6 @@
                     <td>{{$p->apl}}</td>
                     <td>{{$p->users->name}}</td>
                     <td>
-                        <a type=" button" class="p-2 text-black bg-yellow-400 rounded-lg"><i
-                                class="mr-1 fa-solid fa-eye"></i>View</a>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#editPadukuhans{{$p->id}}"
                             class="p-2 text-black bg-blue-400 rounded-lg">Edit</button>
                         <!-- Trigger the modal with a button -->
