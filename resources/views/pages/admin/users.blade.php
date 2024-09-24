@@ -1,54 +1,65 @@
 <x-app-layout>
     <div class="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
-        <button type="button" data-bs-toggle="modal" data-bs-target="#tambahUsers"
-            class="p-2 mb-4 text-black bg-blue-400 rounded-lg hover:bg-slate-300">Tambah
-            User</button>
 
-        <div class="mb-3">
-            <label for="roleFilter" class="form-label">Filter by Role</label>
-            <select id="roleFilter" class="form-select">
-                <option value="all">All</option>
-                <option value="User">User</option>
-                <option value="Dosen">Dosen</option>
-                <option value="Admin">Admin</option>
-            </select>
+
+
+
+        <div class="card laporan-tabel" id="laporan-masuk">
+            <div class="text-xl text-white bg-gray-400 card-header">Daftar User</div>
+            <div class="card-body">
+                <div class="flex items-center justify-between w-full gap-4 mb-3">
+                    <div class="w-1/2">
+                        <label for="roleFilter" class="form-label">Filter by Role</label>
+                        <select id="roleFilter" class="form-select">
+                            <option value="all">All</option>
+                            <option value="User">User</option>
+                            <option value="Dosen">Dosen</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#tambahUsers"
+                        class="p-2 mb-4 text-black bg-blue-400 rounded-lg hover:bg-slate-300">Tambah
+                        User</button>
+
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Terakhir Diubah</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($users as $user=>$u)
+                        <tr data-role="{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Dosen' : 'Admin')}}">
+                            <td>{{ $user + 1 }}</td>
+                            <td>{{$u->name}}</td>
+                            <td>{{$u->email}}</td>
+                            <td>{{$u->updated_at}}</td>
+                            <td>{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Dosen' : 'Admin')}}</td>
+                            <td>
+                                <!-- <a type="button" class="p-2 text-black bg-yellow-400 rounded-lg"><i
+                                        class="mr-1 fa-solid fa-eye"></i>View</a> -->
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#editUsers{{$u->id}}"
+                                    class="p-2 text-black bg-yellow-400 rounded-lg">Edit</button>
+                                <!-- Trigger the modal with a button -->
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#hapusUsers{{ $u->id }}"
+                                    class="p-2 text-black bg-red-500 rounded-lg">Hapus</button>
+                            </td>
+                        </tr>
+
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $users->links() }}
+            </div>
         </div>
 
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Terakhir Diubah</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user=>$u)
-                <tr data-role="{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Dosen' : 'Admin')}}">
-                    <td>{{ $user + 1 }}</td>
-                    <td>{{$u->name}}</td>
-                    <td>{{$u->email}}</td>
-                    <td>{{$u->updated_at}}</td>
-                    <td>{{$u->type == 0 ? 'User' :( $u->type == 1 ? 'Dosen' : 'Admin')}}</td>
-                    <td>
-                        <!-- <a type="button" class="p-2 text-black bg-yellow-400 rounded-lg"><i
-                                class="mr-1 fa-solid fa-eye"></i>View</a> -->
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#editUsers{{$u->id}}"
-                            class="p-2 text-black bg-blue-400 rounded-lg">Edit</button>
-                        <!-- Trigger the modal with a button -->
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#hapusUsers{{ $u->id }}"
-                            class="p-2 text-black bg-red-500 rounded-lg">Hapus</button>
-                    </td>
-                </tr>
-
-                @endforeach
-            </tbody>
-        </table>
-        {{ $users->links() }}
     </div>
 
 
