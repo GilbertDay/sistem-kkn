@@ -187,8 +187,6 @@
 
                 </ul>
             </div>
-            <!-- More group -->
-
         </div>
 
         <!-- Expand / collapse button -->
