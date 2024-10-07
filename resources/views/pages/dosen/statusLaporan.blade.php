@@ -10,10 +10,13 @@
         </div>
 
         <div class="flex flex-col gap-4">
-
+            <!-- Laporan Proses -->
             <div class="card laporan-tabel" id="laporan-masuk">
                 <div class="text-xl text-white bg-gray-400 card-header">Laporan Masuk</div>
                 <div class="card-body">
+                    @if($laporanProses->isEmpty())
+                    <tr>Belum Ada Laporan Masuk </tr>
+                    @else
                     <table class="table">
                         <thead>
                             <tr>
@@ -54,12 +57,17 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @endif
                 </div>
             </div>
 
+            <!-- Laporan Terima -->
             <div class="card laporan-tabel" id="laporan-diterima" style="display:none;">
                 <div class="text-xl text-white bg-green-400 card-header">Laporan Diterima</div>
                 <div class="card-body">
+                    @if($laporanTerima->isEmpty())
+                    <tr>Belum Ada Laporan Diterima </tr>
+                    @else
                     <table class="table">
                         <thead>
                             <tr>
@@ -73,14 +81,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($laporanProses as $lp)
+                            @foreach($laporanTerima as $lt)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $lp->judul }}</td>
+                                <td>{{ $lt->judul }}</td>
 
-                                <td>{{ $lp->kelompok->nama_kelompok }}</td>
-                                <td>{{ $lp->kelompok->padukuhan->lokasi }}</td>
-                                <td>{{ $lp->kelompok->users->name }}</td>
+                                <td>{{ $lt->kelompok->nama_kelompok }}</td>
+                                <td>{{ $lt->kelompok->padukuhan->lokasi }}</td>
+                                <td>{{ $lt->kelompok->users->name }}</td>
                                 <td>
                                     <form action="{{route('viewLaporan')}}" target="_blank" method="POST"
                                         enctype="multipart/form-data">
@@ -94,12 +102,17 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @endif
                 </div>
             </div>
 
+            <!-- Laporan Tolak -->
             <div class="card laporan-tabel" id="laporan-ditolak" style="display:none;">
                 <div class="text-xl text-white bg-red-400 card-header">Laporan Ditolak</div>
                 <div class="card-body">
+                    @if($laporanTolak->isEmpty())
+                    <tr>Belum Ada Laporan Ditolak </tr>
+                    @else
                     <table class="table">
                         <thead>
                             <tr>
@@ -113,13 +126,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($laporanProses as $lp)
+                            @foreach($laporanTolak as $lt)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $lp->judul }}</td>
-                                <td>{{ $lp->kelompok->nama_kelompok }}</td>
-                                <td>{{ $lp->kelompok->padukuhan->lokasi }}</td>
-                                <td>{{ $lp->kelompok->users->name }}</td>
+                                <td>{{ $lt->judul }}</td>
+                                <td>{{ $lt->kelompok->nama_kelompok }}</td>
+                                <td>{{ $lt->kelompok->padukuhan->lokasi }}</td>
+                                <td>{{ $lt->kelompok->users->name }}</td>
                                 <td>
                                     <form action="{{route('viewLaporan')}}" target="_blank" method="POST"
                                         enctype="multipart/form-data">
@@ -133,6 +146,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @endif
                 </div>
             </div>
         </div>

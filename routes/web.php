@@ -54,8 +54,10 @@ Route::middleware(['auth:sanctum', 'user-access:1', 'verified'])->group(function
 Route::middleware(['auth:sanctum', 'user-access:0', 'verified'])->group(function () {
     Route::get('/laporan', [LaporanController::class, 'laporan'])->name('laporan');
     Route::post('/uploadLaporan', [LaporanController::class, 'uploadLaporan'])->name('uploadLaporan');
-    Route::get('/logbook', [LogbookController::class, 'logbook'])->name('logbook');
-    Route::post('/adddLogbook', [LogbookController::class, 'adddLogbook'])->name('adddLogbook');
+    Route::get('/logbook', [LogbookController::class, 'index'])->name('logbook');
+    Route::post('/adddLogbook', [LogbookController::class, 'adddLogbook'])->name('addLogbook');
+    Route::post('/editLogbook', [LogbookController::class, 'editLogbook'])->name('editLogbook');
+    Route::post('/hapusLogbook', [LogbookController::class, 'hapusLogbook'])->name('hapusLogbook');
 });
 Route::post('/viewLaporan', [LaporanController::class, 'viewLaporan'])->name('viewLaporan');
 

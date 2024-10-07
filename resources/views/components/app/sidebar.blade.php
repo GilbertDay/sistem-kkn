@@ -51,7 +51,8 @@
                                     <div class="flex items-center">
                                         <i class="fa-regular fa-user shrink-0 fill-current @if(in_array(Request::segment(1), ['users'])){{ 'text-violet-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }}@endif""></i>
                                         <span
-                                            class="ml-4 text-sm font-medium duration-200  lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">Users</span>
+                                            class=" ml-4 text-sm font-medium duration-200 lg:opacity-0
+                                            lg:sidebar-expanded:opacity-100 2xl:opacity-100">Users</span>
                                     </div>
 
                                 </div>
@@ -182,7 +183,6 @@
                             </a>
                         </a>
                     </li>
-
                     @endif
 
                 </ul>
