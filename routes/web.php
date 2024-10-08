@@ -9,6 +9,7 @@ use App\Http\Controllers\KelompokController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DaftarKknController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,16 +32,20 @@ Route::middleware(['auth:sanctum', 'user-access:2', 'verified'])->group(function
     Route::post('/edit-users', [UserController::class, 'editUser'])->name('editUsers');
     Route::post('/hapus-users', [UserController::class, 'hapusUser'])->name('hapusUsers');
 
-    Route::get('/padukuhan', [PadukuhanController::class, 'index'])->name('padukuhan');
+    Route::get('/padukuhan/{kkn_id}', [PadukuhanController::class, 'tampil'])->name('padukuhan');
     Route::post('/add-padukuhans', [PadukuhanController::class, 'tambahPadukuhan'])->name('addPadukuhans');
     Route::post('/edit-padukuhans', [PadukuhanController::class, 'editPadukuhan'])->name('editPadukuhans');
     Route::post('/hapus-padukuhans', [PadukuhanController::class, 'hapusPadukuhan'])->name('hapusPadukuhans');
 
-    Route::get('/kelompok', [KelompokController::class, 'index'])->name('kelompok');
+    Route::get('/kelompok/{padukuhan_id}', [KelompokController::class, 'tampil'])->name('kelompok');
     Route::post('/add-kelompoks', [KelompokController::class, 'tambahKelompok'])->name('addKelompoks');
     Route::post('/edit-kelompoks', [KelompokController::class, 'editKelompok'])->name('editKelompoks');
     Route::post('/hapus-kelompoks', [KelompokController::class, 'hapusKelompok'])->name('hapusKelompoks');
     Route::get('/search-user', [KelompokController::class, 'searchSiswa'])->name('searchUsers');
+
+    Route::get('/kkn-reguler', [DaftarKknController::class, 'indexKknReguler'])->name('kkn-reguler');
+    Route::get('/kkn-tematik', [DaftarKknController::class, 'indexKknTematik'])->name('kkn-tematik');
+    Route::post('/tambahKkn', [DaftarKknController::class, 'tambahKkn'])->name('tambahKkn');
 
 });
 
@@ -55,7 +60,7 @@ Route::middleware(['auth:sanctum', 'user-access:0', 'verified'])->group(function
     Route::get('/laporan', [LaporanController::class, 'laporan'])->name('laporan');
     Route::post('/uploadLaporan', [LaporanController::class, 'uploadLaporan'])->name('uploadLaporan');
     Route::get('/logbook', [LogbookController::class, 'index'])->name('logbook');
-    Route::post('/adddLogbook', [LogbookController::class, 'adddLogbook'])->name('addLogbook');
+    Route::post('/addLogbook', [LogbookController::class, 'addLogbook'])->name('addLogbook');
     Route::post('/editLogbook', [LogbookController::class, 'editLogbook'])->name('editLogbook');
     Route::post('/hapusLogbook', [LogbookController::class, 'hapusLogbook'])->name('hapusLogbook');
 });

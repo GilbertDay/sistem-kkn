@@ -9,8 +9,7 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama Dukuh</th>
-                    <th scope="col">Lokasi</th>
-                    <th scope="col">Kecamatan</th>
+                    <th scope="col">Desa</th>
                     <th scope="col">Asisten</th>
                     <th scope="col">Dosen Pembimbing</th>
                     <th scope="col">Aksi</th>
@@ -21,11 +20,12 @@
                 <tr>
                     <td>{{ $padukuhan + 1 }}</td>
                     <td>{{$p->nama_dukuh}}</td>
-                    <td>{{$p->lokasi}}</td>
-                    <td>{{$p->kecamatan}}</td>
+                    <td>{{$p->desa}}</td>
                     <td>{{$p->apl}}</td>
                     <td>{{$p->users->name}}</td>
                     <td>
+                        <a href="/kelompok/{{ $p->id }}" type="submit"
+                            class="p-2 text-black bg-yellow-400 rounded-lg"><i class="mr-1 fa-solid fa-eye"></i>View</a>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#editPadukuhans{{$p->id}}"
                             class="p-2 text-black bg-blue-400 rounded-lg">Edit</button>
                         <!-- Trigger the modal with a button -->
@@ -53,22 +53,18 @@
                 <form action="{{ route('addPadukuhans') }}" method="POST">
                     <div class="modal-body">
                         @csrf
-                        <div class="mb-3">
-                            <label for="lokasi" class="form-label">Lokasi</label>
-                            <input type="text" class="form-control" id="lokasi" name="lokasi">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="kecamatan" class="form-label">Kecamatan</label>
-                            <input type="text" class="form-control" id="kecamatan" name="kecamatan">
-                        </div>
-
+                        <input type="text" value="{{$kkn_id}}" name="kkn_id" hidden>
                         <div class="mb-3">
                             <label for="dukuh" class="form-label">Nama Dukuh</label>
                             <input type="text" class="form-control" id="dukuh" name="dukuh">
                         </div>
 
                         <div class="mb-3">
+                            <label for="desa" class="form-label">Desa</label>
+                            <input type="text" class="form-control" id="desa" name="desa">
+                        </div>
+
+                        <div class="mb-3 ">
                             <label for="apl" class="form-label">Nama Asisten Lapangan</label>
                             <input type="text" class="form-control" id="apl" name="apl">
                         </div>
@@ -105,22 +101,17 @@
                     <div class="modal-body">
                         @csrf
                         <input type="text" class="form-control" id="id" name="id" value="{{$p->id}}" hidden>
-                        <div class="mb-3">
-                            <label for="lokasi" class="form-label">Lokasi</label>
-                            <input type="text" class="form-control" id="lokasi" name="lokasi" value="{{$p->lokasi}}">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="kecamatan" class="form-label">Kecamatan</label>
-                            <input type="text" class="form-control" id="kecamatan" name="kecamatan"
-                                value="{{$p->kecamatan}}">
-                        </div>
+                        <input type="text" name="kkn_id" value="{{$kkn_id}}" hidden>
 
                         <div class="mb-3">
                             <label for="dukuh" class="form-label">Nama Dukuh</label>
                             <input type="text" class="form-control" id="dukuh" name="dukuh" value="{{$p->nama_dukuh}}">
                         </div>
 
+                        <div class="mb-3">
+                            <label for="desa" class="form-label">Desa</label>
+                            <input type="text" class="form-control" id="desa" name="desa" value="{{$p->desa}}">
+                        </div>
                         <div class="mb-3">
                             <label for="apl" class="form-label">Nama Asisten Lapangan</label>
                             <input type="text" class="form-control" id="apl" name="apl" value="{{$p->apl}}">
@@ -152,11 +143,11 @@
                     <h5 class="modal-title" id="hapusPadukuhansLabel">Hapus Padukuhans</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('hapusUsers') }}" method="POST">
+                <form action="{{ route('hapusPadukuhans') }}" method="POST">
                     <div class="modal-body">
                         @csrf
                         <input type="text" class="form-control" id="id" name="id" value="{{$p->id}}" hidden>
-                        <p>Apakah anda yakin ingin menghapus Padukuhan {{$p->lokasi}}?</p>
+                        <p>Apakah anda yakin ingin menghapus Desa {{$p->desa}}?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

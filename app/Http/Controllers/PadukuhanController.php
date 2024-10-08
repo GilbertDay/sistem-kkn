@@ -13,14 +13,13 @@ class PadukuhanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function tampil($kkn_id)
     {
         //
-
-        $padukuhans = Padukuhan::with('users')->paginate(10);
+        $padukuhans = Padukuhan::with('users')->where('daftar_kkn_id', $kkn_id)->paginate(10);
         $dosen = User::where('type', 1)->get();
 
-        return view('pages/admin/padukuhan',compact('padukuhans','dosen'));
+        return view('pages/admin/padukuhan',compact('padukuhans','dosen','kkn_id'));
     }
 
     /**
@@ -29,53 +28,54 @@ class PadukuhanController extends Controller
     public function tambahPadukuhan(Request $req)
     {
         // Validate the input data
-        $validated = $req->validate([
-            'lokasi' => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:255',
-            'dukuh' => 'required|string|max:255',
-            'apl' => 'nullable|string|max:255', // Optional field
-            'dosen_id' => 'nullable|integer|exists:users,id', // Validate that it exists in the 'dosens' table
-        ]);
+        // $validated = $req->validate([
+        //     'lokasi' => 'required|string|max:255',
+        //     'kkn_id' => 'required',
+        //     'desa' => 'required|string|max:255',
+        //     'apl' => 'nullable|string|max:255', // Optional field
+        //     'dosen_id' => 'nullable|integer|exists:users,id', // Validate that it exists in the 'dosens' table
+        // ]);
 
         // Create and save the new Padukuhan to the database
         $padukuhan = new Padukuhan();
-        $padukuhan->lokasi = $validated['lokasi'];
-        $padukuhan->kecamatan = $validated['kecamatan'];
-        $padukuhan->nama_dukuh = $validated['dukuh'];
-        $padukuhan->apl = $validated['apl'];
-        $padukuhan->dosen_id = $validated['dosen_id'];
+        $padukuhan->daftar_kkn_id = $req->kkn_id;
+        $padukuhan->desa = $req->desa;
+        $padukuhan->nama_dukuh = $req->dukuh;
+        $padukuhan->apl = $req->apl;
+        $padukuhan->dosen_id = $req->dosen_id;
         $padukuhan->save();
 
         // Redirect back with a success message
-        return redirect('/padukuhan')->with('success', 'Padukuhan added successfully!');
+        return redirect()->back()->with('success', 'Padukuhan added successfully!');
     }
 
     public function editPadukuhan(Request $req)
     {
-        $validated = $req->validate([
-            'lokasi' => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:255',
-            'dukuh' => 'required|string|max:255',
-            'apl' => 'nullable|string|max:255', // Optional field
-            'dosen_id' => 'nullable|integer|exists:users,id', // Validate that it exists in the 'dosens' table
-        ]);
+        // $validated = $req->validate([
+        //     'lokasi' => 'required|string|max:255',
+        //     'kecamatan' => 'required|string|max:255',
+        //     'dukuh' => 'required|string|max:255',
+        //     'apl' => 'nullable|string|max:255', // Optional field
+        //     'dosen_id' => 'nullable|integer|exists:users,id', // Validate that it exists in the 'dosens' table
+        // ]);
 
         $id = $req->input('id');
         $padukuhan = Padukuhan::find($id);
-        $padukuhan->lokasi = $validated['lokasi'];
-        $padukuhan->kecamatan = $validated['kecamatan'];
-        $padukuhan->nama_dukuh = $validated['dukuh'];
-        $padukuhan->apl = $validated['apl'];
-        $padukuhan->dosen_id = $validated['dosen_id'];
+        $padukuhan->daftar_kkn_id = $req->kkn_id;
+        $padukuhan->desa = $req->desa;
+        $padukuhan->nama_dukuh = $req->dukuh;
+        $padukuhan->apl = $req->apl;
+        $padukuhan->dosen_id = $req->dosen_id;
         $padukuhan->save();
-        return redirect('/padukuhan')->with('success', 'Padukuhan updated successfully!');
+        return redirect()->back()->with('success', 'Padukuhan updated successfully!');
     }
     public function hapusPadukuhan(Request $req)
     {
         $id = $req->input('id');
         $padukuhan = Padukuhan::find($id);
+        // dd($padukuhan);
         $padukuhan->delete();
-        return redirect('/padukuhan')->with('success', 'Padukuhan deleted successfully!');
+        return redirect()->back()->with('success', 'Padukuhan deleted successfully!');
 
     }
 

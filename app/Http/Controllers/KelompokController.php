@@ -13,9 +13,9 @@ class KelompokController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function tampil($padukuhan_id)
     {
-        $kelompoks = Kelompok::with('users')->paginate(10);
+        $kelompoks = Kelompok::with('users')->where('padukuhan_id', $padukuhan_id)->paginate(10);
 
        // Ambil ID siswa yang sudah ada di tabel kelompok
         $padukuhanIdsInKelompok = Kelompok::pluck('padukuhan_id')->toArray();
