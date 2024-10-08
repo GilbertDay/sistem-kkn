@@ -15,7 +15,11 @@ class KelompokController extends Controller
      */
     public function tampil($padukuhan_id)
     {
-        $kelompoks = Kelompok::with('users')->where('padukuhan_id', $padukuhan_id)->paginate(10);
+        $kelompoks = Kelompok::with(['padukuhan.daftarKkn'])->where('padukuhan_id', $padukuhan_id)->get();
+
+        // return response()->json($kelompoks);
+
+        // dd($kelompoks);
 
        // Ambil ID siswa yang sudah ada di tabel kelompok
         $padukuhanIdsInKelompok = Kelompok::pluck('padukuhan_id')->toArray();

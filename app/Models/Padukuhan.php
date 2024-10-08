@@ -13,4 +13,14 @@ class Padukuhan extends Model
     {
         return $this->belongsTo(User::class, 'dosen_id');
     }
+
+    public function daftarKkn()
+    {
+        return $this->belongsTo(DaftarKkn::class, 'daftar_kkn_id');
+    }
+
+    public function kelompok()
+    {
+        return $this->hasMany(Kelompok::class, 'padukuhan_id');
+    }
 }

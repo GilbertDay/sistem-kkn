@@ -17,4 +17,9 @@ class DaftarKkn extends Model
         'tema',
         'tipe',
     ];
+
+    public function padukuhans()
+    {
+        return $this->hasMany(Padukuhan::class, 'daftar_kkn_id');
+    }
 }

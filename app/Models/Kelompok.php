@@ -21,4 +21,6 @@ class Kelompok extends Model
     {
         return $this->belongsTo(Padukuhan::class, 'padukuhan_id');
     }
+
+
 }

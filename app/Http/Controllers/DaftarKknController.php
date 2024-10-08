@@ -14,7 +14,7 @@ class DaftarKknController extends Controller
      */
     public function indexKknReguler()
     {
-        $regulers = DaftarKkn::where('tipe', 'reguler')->paginate(10);
+        $regulers = DaftarKkn::where('tipe', 'reguler')->withCount('padukuhans')->paginate(10);
         return view('pages/admin/kkn-reguler', compact('regulers'));
     }
     public function indexKknTematik()

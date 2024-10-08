@@ -20,7 +20,7 @@
                 <tr>
                     <td>{{ $kelompok + 1 }}</td>
                     <td>{{ $k->nama_kelompok }}</td>
-                    <td>{{ $k->padukuhan->lokasi }}</td>
+                    <td>{{ $k->padukuhan->daftarKkn->lokasi }}</td>
                     <td>{{ $k->users->name }}</td>
                     <td>{{ $k->tanggal_mulai }}</td>
                     <td>{{ $k->tanggal_selesai }}</td>
@@ -36,7 +36,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $kelompoks->links() }}
+
     </div>
 
     <!-- Modal Tambah Kelompok -->

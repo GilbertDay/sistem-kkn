@@ -11,7 +11,7 @@
                     <th scope="col">Semester</th>
                     <th scope="col">Lokasi</th>
                     <th scope="col">Kecamatan</th>
-                    <!-- <th scope="col">Jumlah Padukuhan</th> -->
+                    <th scope="col">Jumlah Kelompok</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
@@ -23,6 +23,7 @@
                     <td>{{ $r->semester }}</td>
                     <td>{{ $r->lokasi }}</td>
                     <td>{{ $r->kecamatan }}</td>
+                    <td>{{ $r->padukuhans_count }}</td>
                     <td class="flex gap-2">
                         <a href="/padukuhan/{{ $r->id }}" type="submit"
                             class="p-2 text-black bg-yellow-400 rounded-lg"><i class="mr-1 fa-solid fa-eye"></i>View</a>
