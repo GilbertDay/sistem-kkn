@@ -17,32 +17,25 @@ class LaporanController extends Controller
 
     public function cekLaporan(){
         $idDosen = Auth::id();
-        // dd($idDosen);
-        // $laporanProses = Laporan::where('status', 'proses')->get();
-        // $laporanTerima = Laporan::where('status', 'diterima')->get();
-        // $laporanTolak = Laporan::where('status', 'ditolak')->get();
+        $laporanProses = Laporan::where('status', 'proses')
+                        ->whereHas('kelompok.padukuhan', function ($query) use ($idDosen) {
+                            $query->where('dosen_id', $idDosen);
+                        })->get();
 
-    $laporanProses = Laporan::where('status', 'proses')
-    ->whereHas('kelompok.padukuhan', function ($query) use ($idDosen) {
-        $query->where('dosen_id', $idDosen);
-    })->get();
+        $laporanTerima = Laporan::where('status', 'diterima')
+                        ->whereHas('kelompok.padukuhan', function ($query) use ($idDosen) {
+                            $query->where('dosen_id', $idDosen);
+                        })->get();
 
-    $laporanTerima = Laporan::where('status', 'diterima')
-        ->whereHas('kelompok.padukuhan', function ($query) use ($idDosen) {
-            $query->where('dosen_id', $idDosen);
-        })->get();
-
-    $laporanTolak = Laporan::where('status', 'ditolak')
-        ->whereHas('kelompok.padukuhan', function ($query) use ($idDosen) {
-            $query->where('dosen_id', $idDosen);
-        })->get();
+        $laporanTolak = Laporan::where('status', 'ditolak')
+                        ->whereHas('kelompok.padukuhan', function ($query) use ($idDosen) {
+                            $query->where('dosen_id', $idDosen);
+                        })->get();
 
         return view('pages/dosen/StatusLaporan', compact('laporanTerima', 'laporanTolak','laporanProses'));
     }
 
     public function cekLogbook(){
-        $padukuhan = Padukuhan::where('dosen_id', Auth::id())->get();
-        dd($padukuhan);
         $logbooks = Logbook::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10);
         return view('pages/dosen/statusLogbook', compact('logbooks'));
     }
@@ -50,7 +43,6 @@ class LaporanController extends Controller
     public function laporan()
     {
         $idKetua = Auth::id();
-
         $laporans = Laporan::whereHas('kelompok.users', function ($query) use ($idKetua) {
             $query->where('ketua_id', $idKetua);
         })->get();

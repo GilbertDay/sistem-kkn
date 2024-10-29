@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class DosenController extends Controller
 {
     public function logbookIndex(){
-        $padukuhans = Padukuhan::where('dosen_id', Auth::id())->get();
+        $padukuhans = Padukuhan::with('daftarKkn')->where('dosen_id', Auth::id())->get();
         return view('pages/dosen/statusLogbook', compact('padukuhans'));
     }
 

@@ -8,6 +8,7 @@
             <thead >
                 <tr>
                     <th scope="col">No</th>
+                    <th scope="col">Tipe KKN</th>
                     <th scope="col">Padukuhan</th>
                     <th scope="col">APL</th>
                     <th scope="col">Telp APL</th>
@@ -21,12 +22,14 @@
                 @foreach($padukuhans as $padukuhan=>$p)
                 <tr>
                     <td>{{ $padukuhan + 1 }}</td>
+                    <td>{{Str::title($p->daftarKkn->tipe)}}</td>
                     <td>{{$p->desa}}</td>
                     <td>{{$p->apl}}</td>
                     <td>{{$p->telp_apl}}</td>
                     <td>{{$p->nama_dukuh}}</td>
                     <td>{{$p->telp_dukuh}}</td>
                     <td>{{$p->kelurahan}}</td>
+
                     <td >
                         <div class="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
                             <a href="/viewLogbook/{{ $p->id }}" type="submit"
