@@ -39,9 +39,12 @@ class PadukuhanController extends Controller
         // Create and save the new Padukuhan to the database
         $padukuhan = new Padukuhan();
         $padukuhan->daftar_kkn_id = $req->kkn_id;
-        $padukuhan->desa = $req->desa;
+        $padukuhan->desa = $req->padukuhan;
         $padukuhan->nama_dukuh = $req->dukuh;
         $padukuhan->apl = $req->apl;
+        $padukuhan->telp_dukuh = $req->telp_dukuh;
+        $padukuhan->telp_apl = $req->telp_apl;
+        $padukuhan->kelurahan = $req->kelurahan;
         $padukuhan->dosen_id = $req->dosen_id;
         $padukuhan->save();
 

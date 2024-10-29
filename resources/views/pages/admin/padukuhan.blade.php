@@ -1,17 +1,21 @@
 <x-app-layout>
-    <div class="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
+    <div class="w-full h-full px-4 py-8 mx-auto overflow-y-auto sm:px-6 lg:px-8 max-w-9xl">
         <button type="button" data-bs-toggle="modal" data-bs-target="#tambahPadukuhans"
             class="p-2 mb-4 text-black bg-blue-400 rounded-lg hover:bg-slate-300">Tambah
             Padukuhan</button>
 
-        <table class="table">
-            <thead>
+        <table class="table table-bordered">
+            <thead >
                 <tr>
                     <th scope="col">No</th>
+                    <th scope="col">DPL</th>
+                    <th scope="col">Telp DPL</th>
+                    <th scope="col">APL</th>
+                    <th scope="col">Telp APL</th>
+                    <th scope="col">Padukuhan</th>
                     <th scope="col">Nama Dukuh</th>
-                    <th scope="col">Desa</th>
-                    <th scope="col">Asisten</th>
-                    <th scope="col">Dosen Pembimbing</th>
+                    <th scope="col">Telp Dukuh</th>
+                    <th scope="col">Kelurahan</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
@@ -19,18 +23,47 @@
                 @foreach($padukuhans as $padukuhan=>$p)
                 <tr>
                     <td>{{ $padukuhan + 1 }}</td>
-                    <td>{{$p->nama_dukuh}}</td>
-                    <td>{{$p->desa}}</td>
-                    <td>{{$p->apl}}</td>
                     <td>{{$p->users->name}}</td>
-                    <td>
-                        <a href="/kelompok/{{ $p->id }}" type="submit"
-                            class="p-2 text-black bg-yellow-400 rounded-lg"><i class="mr-1 fa-solid fa-eye"></i>View</a>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#editPadukuhans{{$p->id}}"
-                            class="p-2 text-black bg-blue-400 rounded-lg">Edit</button>
-                        <!-- Trigger the modal with a button -->
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#hapusPadukuhans{{ $p->id }}"
-                            class="p-2 text-black bg-red-500 rounded-lg">Hapus</button>
+                    <td>{{$p->users->no_telp}}</td>
+                    <td>{{$p->apl}}</td>
+                    <td>{{$p->telp_apl}}</td>
+                    <td>{{$p->desa}}</td>
+                    <td>{{$p->nama_dukuh}}</td>
+                    <td>{{$p->telp_dukuh}}</td>
+                    <td>{{$p->kelurahan}}</td>
+                    <td >
+                        <div class="relative inline-flex p-2.5 rounded-xl  bg-yellow-300" x-data="{ open: false }">
+                            <button class="inline-flex items-center justify-center group" aria-haspopup="true" @click.prevent="open = !open"
+                                :aria-expanded="open">
+                                <div class="flex items-center truncate">
+                                    <span
+                                        class="ml-2 text-sm font-medium text-black">Action</span>
+                                    <svg class="w-3 h-3 ml-1 text-black fill-current shrink-0 dark:text-black" viewBox="0 0 12 12">
+                                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                    </svg>
+                                </div>
+                            </button>
+
+                            <div class="origin-top-right z-10 absolute top-full min-w-44 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/60 py-1.5 rounded-lg shadow-lg overflow-hidden mt-1 right-0"
+                            @click.outside="open = false" @keydown.escape.window="open = false" x-show="open"
+                            x-transition:enter="transition ease-out duration-200 transform"
+                            x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+                            x-transition:leave="transition ease-out duration-200" x-transition:leave-start="opacity-100"
+                            x-transition:leave-end="opacity-0" x-cloak>
+                                <div class="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
+                                    <a href="/kelompok/{{ $p->id }}" type="submit"
+                                        class="p-2 text-black bg-yellow-400 rounded-lg"><i class="mr-1 fa-solid fa-eye"></i>View</a>
+
+                                </div>
+                                <div class="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-200 dark:border-gray-700/60">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#editPadukuhans{{$p->id}}"
+                                        class="p-2 text-black bg-blue-400 rounded-lg">Edit</button>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#hapusPadukuhans{{ $p->id }}"
+                                            class="p-2 text-black bg-red-500 rounded-lg">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </td>
                 </tr>
 
@@ -59,14 +92,29 @@
                             <input type="text" class="form-control" id="dukuh" name="dukuh">
                         </div>
 
+                        <div class="mb-3 ">
+                            <label for="apl" class="form-label">Telp Dukuh</label>
+                            <input type="text" class="form-control" id="telp_dukuh" name="telp_dukuh">
+                        </div>
+
                         <div class="mb-3">
-                            <label for="desa" class="form-label">Desa</label>
-                            <input type="text" class="form-control" id="desa" name="desa">
+                            <label for="desa" class="form-label">Padukuhan</label>
+                            <input type="text" class="form-control" id="padukuhan" name="padukuhan">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="desa" class="form-label">Kelurahan</label>
+                            <input type="text" class="form-control" id="kelurahan" name="kelurahan">
                         </div>
 
                         <div class="mb-3 ">
                             <label for="apl" class="form-label">Nama Asisten Lapangan</label>
                             <input type="text" class="form-control" id="apl" name="apl">
+                        </div>
+
+                        <div class="mb-3 ">
+                            <label for="apl" class="form-label">Telp Asisten Lapangan</label>
+                            <input type="text" class="form-control" id="telp_apl" name="telp_apl">
                         </div>
 
                         <div class="mb-3">

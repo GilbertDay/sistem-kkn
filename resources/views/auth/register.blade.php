@@ -1,5 +1,5 @@
 <x-authentication-layout>
-    <h1 class="text-3xl text-gray-800 dark:text-gray-100 font-bold mb-6">{{ __('Create your Account') }}</h1>
+    <h1 class="mb-6 text-3xl font-bold text-gray-800 dark:text-gray-100">{{ __('Create your Account') }}</h1>
     <!-- Form -->
     <form method="POST" action="{{ route('register') }}">
         @csrf
@@ -12,6 +12,21 @@
             <div>
                 <x-label for="email">{{ __('Email Address') }} <span class="text-red-500">*</span></x-label>
                 <x-input id="email" type="email" name="email" :value="old('email')" required />
+            </div>
+
+            <div>
+                <x-label for="nim">{{ __('NIM') }} <span class="text-red-500">*</span></x-label>
+                <x-input id="nim" type="nim" name="nim" :value="old('nim')" required />
+            </div>
+
+            <div>
+                <x-label for="prodi">{{ __('Prodi') }} <span class="text-red-500">*</span></x-label>
+                <x-input id="prodi" type="prodi" name="prodi" :value="old('prodi')" required />
+            </div>
+
+            <div>
+                <x-label for="gender">{{ __('Gender') }} <span class="text-red-500">*</span></x-label>
+                <x-input id="gender" type="gender" name="gender" :value="old('gender')" required />
             </div>
 
             <div>
@@ -28,28 +43,28 @@
             <div class="mr-1">
                 <label class="flex items-center" name="newsletter" id="newsletter">
                     <input type="checkbox" class="form-checkbox" />
-                    <span class="text-sm ml-2">Email me about product news.</span>
+                    <span class="ml-2 text-sm">Email me about product news.</span>
                 </label>
             </div>
             <x-button>
                 {{ __('Sign Up') }}
-            </x-button>                
+            </x-button>
         </div>
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-6">
                     <label class="flex items-start">
-                        <input type="checkbox" class="form-checkbox mt-1" name="terms" id="terms" />
-                        <span class="text-sm ml-2">
+                        <input type="checkbox" class="mt-1 form-checkbox" name="terms" id="terms" />
+                        <span class="ml-2 text-sm">
                             {!! __('I agree to the :terms_of_service and :privacy_policy', [
                                 'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="text-sm underline hover:no-underline">'.__('Terms of Service').'</a>',
                                 'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="text-sm underline hover:no-underline">'.__('Privacy Policy').'</a>',
-                            ]) !!}                        
+                            ]) !!}
                         </span>
                     </label>
                 </div>
-            @endif        
+            @endif
     </form>
-    <x-validation-errors class="mt-4" />  
+    <x-validation-errors class="mt-4" />
     <!-- Footer -->
     <div class="pt-5 mt-6 border-t border-gray-100 dark:border-gray-700/60">
         <div class="text-sm">

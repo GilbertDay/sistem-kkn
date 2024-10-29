@@ -36,7 +36,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $lp->judul }}</td>
                                 <td>{{ $lp->kelompok->nama_kelompok }}</td>
-                                <td>{{ $lp->kelompok->padukuhan->lokasi }}</td>
+                                <td>{{ $lp->kelompok->padukuhan->desa }}</td>
                                 <td>{{ $lp->kelompok->users->name }}</td>
                                 <td>
                                     <form action="{{route('viewLaporan')}}" target="_blank" method="POST"

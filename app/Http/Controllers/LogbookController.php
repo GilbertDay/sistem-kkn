@@ -6,6 +6,7 @@ use App\Models\Logbook;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreLogbookRequest;
 use Illuminate\Support\Facades\Auth;
+use DB;
 use App\Http\Requests\UpdateLogbookRequest;
 
 class LogbookController extends Controller
@@ -16,16 +17,22 @@ class LogbookController extends Controller
     public function index()
     {
         $logbooks = Logbook::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10);
+        $id = Auth::id();
+        $kelompok = DB::table('kelompoks')
+        ->where('ketua_id', $id)
+        ->orWhere('anggota', 'REGEXP', '(^|,)' . $id . '(,|$)')
+        ->first();
 
-        return view('pages/users/logbook', compact('logbooks'));
+        return view('pages/users/logbook', compact('logbooks','kelompok'));
     }
 
-    public function adddLogbook(Request $request){
+    public function addLogbook(Request $request){
         // dd($request->all());
         $logbook = new Logbook();
         $logbook->user_id = Auth::id();
         $logbook->isi = $request->isi;
         $logbook->tanggal = $request->tanggal;
+        $logbook->padukuhan_id = $request->padukuhan_id;
         $logbook->save();
 
         return redirect()->back();

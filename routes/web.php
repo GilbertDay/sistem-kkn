@@ -10,6 +10,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DaftarKknController;
+use App\Http\Controllers\DosenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,8 +52,9 @@ Route::middleware(['auth:sanctum', 'user-access:2', 'verified'])->group(function
 
 Route::middleware(['auth:sanctum', 'user-access:1', 'verified'])->group(function () {
     Route::get('/cekLaporan', [LaporanController::class, 'cekLaporan'])->name('cekLaporan');
-    Route::get('/cekLogbook', [LaporanController::class, 'cekLogbook'])->name('cekLogbook');
+    Route::get('/cekLogbook', [DosenController::class, 'logbookIndex'])->name('cekLogbook');
     Route::get('/tolakLaporan', [LaporanController::class, 'tolakLaporan'])->name('tolakLaporan');
+    Route::get('/viewLogbook/{id}', [DosenController::class, 'viewLogbook'])->name('viewLogbook');
 
 });
 

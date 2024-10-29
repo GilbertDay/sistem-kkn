@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Laporan;
 use App\Models\Kelompok;
+use App\Models\Logbook;
+use App\Models\Padukuhan;
 use App\Http\Requests\StoreLaporanRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateLaporanRequest;
@@ -39,11 +41,12 @@ class LaporanController extends Controller
     }
 
     public function cekLogbook(){
-
+        $padukuhan = Padukuhan::where('dosen_id', Auth::id())->get();
+        dd($padukuhan);
+        $logbooks = Logbook::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10);
+        return view('pages/dosen/statusLogbook', compact('logbooks'));
     }
-    /**
-     * Display a listing of the resource.
-     */
+
     public function laporan()
     {
         $idKetua = Auth::id();
@@ -57,9 +60,6 @@ class LaporanController extends Controller
         return view('pages/users/laporan', compact('laporans','idKelompok'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function uploadLaporan(Request $req)
     {
         $idUser = Auth::id();
@@ -78,43 +78,9 @@ class LaporanController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function viewLaporan(Request $req)
     {
         return response()->file(public_path($req->file),['Content-Type' => 'application/pdf']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Laporan $laporan)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Laporan $laporan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateLaporanRequest $request, Laporan $laporan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Laporan $laporan)
-    {
-        //
-    }
 }

@@ -15,11 +15,11 @@ class Controller extends BaseController
     public function index()
     {
         if (Auth::user()->type == 0) {
-            return redirect('/laporan');
+            return redirect('/logbook');
         } else if (Auth::user()->type == 1) {
             return redirect('/cekLaporan');
-        } else if (Auth::user()->type == 2) { // Untuk tipe Mahasiswa
-            return redirect('/users');
+        } else if (Auth::user()->type == 2) {
+            return redirect('/kkn-reguler');
         }
     }
 }

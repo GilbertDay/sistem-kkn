@@ -19,9 +19,9 @@ class DaftarKknController extends Controller
     }
     public function indexKknTematik()
     {
-        $tematiks = DaftarKkn::where('tipe', 'tematik')->paginate(10);
+        $tematiks = DaftarKkn::where('tipe', 'tematik')->withCount('padukuhans')->paginate(10);
 
-        return view('pages/admin/kkn-reguler', compact('tematiks'));
+        return view('pages/admin/kkn-tematik', compact('tematiks'));
     }
 
     public function tambahKKN(Request $req){

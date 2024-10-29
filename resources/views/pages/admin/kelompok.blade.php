@@ -1,46 +1,63 @@
 <x-app-layout>
     <div class="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
+        @if(empty($kelompoks))
         <button type="button" data-bs-toggle="modal" data-bs-target="#tambahKelompoks"
             class="p-2 mb-4 text-black bg-blue-400 rounded-lg hover:bg-slate-300">Tambah Kelompok</button>
 
-        <table class="table">
+        <div class="my-32 font-semibold text-center text-black ">Silahkan Tambah Data Kelompok</div>
+
+        @else
+        <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">No</th>
                     <th scope="col">Nama Kelompok</th>
-                    <th scope="col">Nama Padukuhan</th>
-                    <th scope="col">Ketua Kelompok</th>
-                    <th scope="col">Tanggal Mulai</th>
-                    <th scope="col">Tanggal Selesai</th>
+                    <th scope="col">NIM</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Prodi</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($kelompoks as $kelompok => $k)
                 <tr>
-                    <td>{{ $kelompok + 1 }}</td>
-                    <td>{{ $k->nama_kelompok }}</td>
-                    <td>{{ $k->padukuhan->daftarKkn->lokasi }}</td>
-                    <td>{{ $k->users->name }}</td>
-                    <td>{{ $k->tanggal_mulai }}</td>
-                    <td>{{ $k->tanggal_selesai }}</td>
+                    <td>{{ $kelompoks->nama_kelompok }}</td>
+                    <td>
+                        @foreach ($anggota as $a)
+                            <div class="mb-2">{{ $a->nim }}</div>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach ($anggota as $a)
+                            <div class="mb-2">{{ $a->name }}</div>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach ($anggota as $a)
+                            <div class="mb-2">{{ $a->gender }}</div>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach ($anggota as $a)
+                            <div class="mb-2">{{ $a->prodi }}</div>
+                        @endforeach
+                    </td>
                     <td>
                         <a type="button" class="p-2 text-black bg-yellow-400 rounded-lg"><i
                                 class="mr-1 fa-solid fa-eye"></i>View</a>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#editKelompoks{{ $k->id }}"
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#editKelompoks{{ $kelompoks->id }}"
                             class="p-2 text-black bg-blue-400 rounded-lg">Edit</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#hapusKelompoks{{ $k->id }}"
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#hapusKelompoks{{ $kelompoks->id }}"
                             class="p-2 text-black bg-red-500 rounded-lg">Hapus</button>
                     </td>
                 </tr>
-                @endforeach
             </tbody>
         </table>
-
+        @endif
     </div>
 
     <!-- Modal Tambah Kelompok -->
-    <div class="modal fade" id="tambahKelompoks" tabindex="-1" aria-labelledby="tambahKelompoksLabel"
+   @if(empty($kelompoks))
+        <div class="modal fade" id="tambahKelompoks" tabindex="-1" aria-labelledby="tambahKelompoksLabel"
         aria-hidden="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -51,17 +68,10 @@
                 <form action="{{ route('addKelompoks') }}" method="POST">
                     <div class="modal-body">
                         @csrf
+                        <input type="text" value="{{$id_padukuhan}}" name="padukuhan_id" hidden>
                         <div class="mb-3">
                             <label for="nama_kelompok" class="form-label">Nama Kelompok</label>
                             <input type="text" class="form-control" id="nama_kelompok" name="nama_kelompok">
-                        </div>
-                        <div class="mb-3">
-                            <label for="padukuhan_id" class="form-label">Padukuhan</label>
-                            <select class="form-select" id="padukuhan_id" name="padukuhan_id">
-                                @foreach($padukuhan as $p)
-                                <option value="{{ $p->id }}">{{ $p->lokasi }}</option>
-                                @endforeach
-                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -97,42 +107,33 @@
                 </form>
             </div>
         </div>
-    </div>
-
+        </div>
     <!-- Modal Update Kelompok -->
-    @foreach($kelompoks as $k)
-    <div class="modal fade" id="editKelompoks{{ $k->id }}" tabindex="-1"
-        aria-labelledby="editKelompoksLabel{{ $k->id }}" aria-hidden="true">
+    @else
+    <div class="modal fade" id="editKelompoks{{ $kelompoks->id }}" tabindex="-1"
+        aria-labelledby="editKelompoksLabel{{ $kelompoks->id }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editKelompoksLabel{{ $k->id }}">Update Kelompok</h5>
+                    <h5 class="modal-title" id="editKelompoksLabel{{ $kelompoks->id }}">Update Kelompok</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('editKelompoks', $k->id) }}" method="POST">
+                <form action="{{ route('editKelompoks', $kelompoks->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nama_kelompok_edit{{ $k->id }}" class="form-label">Nama Kelompok</label>
-                            <input type="text" class="form-control" id="nama_kelompok_edit{{ $k->id }}"
-                                name="nama_kelompok" value="{{ $k->nama_kelompok }}">
+                            <label for="nama_kelompok_edit{{ $kelompoks->id }}" class="form-label">Nama Kelompok</label>
+                            <input type="text" class="form-control" id="nama_kelompok_edit{{ $kelompoks->id }}"
+                                name="nama_kelompok" value="{{ $kelompoks->nama_kelompok }}">
                         </div>
+
                         <div class="mb-3">
-                            <label for="padukuhan_id_edit{{ $k->id }}" class="form-label">Padukuhan</label>
-                            <select class="form-select" id="padukuhan_id_edit{{ $k->id }}" name="padukuhan_id">
-                                @foreach($padukuhan as $p)
-                                <option value="{{ $p->id }}" {{ $p->id == $k->padukuhan_id ? 'selected' : '' }}>
-                                    {{ $p->lokasi }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="siswa-search-edit{{ $k->id }}" class="form-label">Anggota Kelompok</label>
-                            <select id="siswa-search-edit{{ $k->id }}" name="dosen_id" class="w-full"></select>
-                            <div class="mt-2" id="selected-tags-edit{{ $k->id }}"></div>
+                            <label for="siswa-search-edit{{ $kelompoks->id }}" class="form-label">Anggota Kelompok</label>
+                            <select id="siswa-search-edit{{ $kelompoks->id }}" name="dosen_id" class="w-full"></select>
+                            <div class="mt-2" id="selected-tags-edit{{ $kelompoks->id }}"></div>
                             <!-- Input tersembunyi untuk menyimpan ID anggota yang dipilih -->
-                            <input type="hidden" id="selected_ids_edit{{ $k->id }}" name="selected_ids">
+                            <input type="hidden" id="selected_ids_edit{{ $kelompoks->id }}" name="selected_ids">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -143,7 +144,7 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @endif
 
     <script>
         var myModal = new bootstrap.Modal(document.getElementById('tambahKelompoks'), {

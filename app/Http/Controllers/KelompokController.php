@@ -15,25 +15,37 @@ class KelompokController extends Controller
      */
     public function tampil($padukuhan_id)
     {
-        $kelompoks = Kelompok::with(['padukuhan.daftarKkn'])->where('padukuhan_id', $padukuhan_id)->get();
+        $kelompoks = Kelompok::with(['padukuhan.daftarKkn'])->where('padukuhan_id', $padukuhan_id)->first();
 
         // return response()->json($kelompoks);
 
         // dd($kelompoks);
 
        // Ambil ID siswa yang sudah ada di tabel kelompok
-        $padukuhanIdsInKelompok = Kelompok::pluck('padukuhan_id')->toArray();
+        // $padukuhanIdsInKelompok = Kelompok::pluck('padukuhan_id')->toArray();
 
 
         $siswa = User::where('type', 0)
             ->where('exist_group', 0)
             ->get();
 
-        $padukuhan = Padukuhan::
-            whereNotIn('id', $padukuhanIdsInKelompok)
-            ->get();
+        // $padukuhan = Padukuhan::
+        //     whereNotIn('id', $padukuhanIdsInKelompok)
+        //     ->get();
 
-        return view('pages/admin/kelompok',compact('kelompoks','siswa','padukuhan'));
+
+        $anggota = [];
+        if ($kelompoks) {
+            $id_anggota = explode(',', $kelompoks->anggota);
+
+            foreach ($id_anggota as $id) {
+                $anggota[] = User::find($id);
+            }
+        }
+
+        $id_padukuhan = $padukuhan_id;
+
+        return view('pages/admin/kelompok',compact('kelompoks','siswa','id_padukuhan','anggota'));
     }
 
 
