@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Logbook;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreLogbookRequest;
+use Illuminate\Support\Facades\Auth;
+use DB;
 use App\Http\Requests\UpdateLogbookRequest;
 
 class LogbookController extends Controller
@@ -13,7 +16,26 @@ class LogbookController extends Controller
      */
     public function index()
     {
-        //
+        $logbooks = Logbook::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10);
+        $id = Auth::id();
+        $kelompok = DB::table('kelompoks')
+        ->where('ketua_id', $id)
+        ->orWhere('anggota', 'REGEXP', '(^|,)' . $id . '(,|$)')
+        ->first();
+
+        return view('pages/users/logbook', compact('logbooks','kelompok'));
+    }
+
+    public function addLogbook(Request $request){
+        // dd($request->all());
+        $logbook = new Logbook();
+        $logbook->user_id = Auth::id();
+        $logbook->isi = $request->isi;
+        $logbook->tanggal = $request->tanggal;
+        $logbook->padukuhan_id = $request->padukuhan_id;
+        $logbook->save();
+
+        return redirect()->back();
     }
 
     /**
@@ -51,16 +73,26 @@ class LogbookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLogbookRequest $request, Logbook $logbook)
+    public function editLogbook(Request $req)
     {
-        //
+        $logbook = Logbook::find($req->id);
+
+        $logbook->isi = $req->isi;
+        $logbook->tanggal = $req->tanggal;
+        $logbook->save();
+
+        return redirect()->back();
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Logbook $logbook)
+    public function hapusLogbook(Request $req)
     {
-        //
+        $logbook = Logbook::find($req->id);
+        $logbook->delete();
+        return redirect()->back();
+
     }
 }
