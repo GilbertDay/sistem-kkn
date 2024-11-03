@@ -55,6 +55,18 @@ Route::middleware(['auth:sanctum', 'user-access:1', 'verified'])->group(function
     Route::get('/cekLogbook', [DosenController::class, 'logbookIndex'])->name('cekLogbook');
     Route::get('/tolakLaporan', [LaporanController::class, 'tolakLaporan'])->name('tolakLaporan');
     Route::get('/viewLogbook/{id}', [DosenController::class, 'viewLogbook'])->name('viewLogbook');
+    Route::post('/logbook/{id}/accept', [DosenController::class, 'acceptLogbook'])->name('logbook.accept');
+    Route::post('/logbook/{id}/reject', [DosenController::class, 'rejectLogbook'])->name('logbook.reject');
+
+    Route::post('/laporan/accept/{id}', [LaporanController::class, 'cekLaporan'])->name('acceptLaporan');
+    Route::post('/laporan/reject/{id}', [LaporanController::class, 'reject'])->name('rejectLaporan');
+    
+    Route::post('/laporan/upload', [LaporanController::class, 'store'])->name('uploadLaporan');
+Route::put('/laporan/update/{id}', [LaporanController::class, 'update'])->name('updateLaporan');
+Route::delete('/laporan/delete/{id}', [LaporanController::class, 'destroy'])->name('deleteLaporan');
+
+
+    
 
 });
 
@@ -65,6 +77,12 @@ Route::middleware(['auth:sanctum', 'user-access:0', 'verified'])->group(function
     Route::post('/addLogbook', [LogbookController::class, 'addLogbook'])->name('addLogbook');
     Route::post('/editLogbook', [LogbookController::class, 'editLogbook'])->name('editLogbook');
     Route::post('/hapusLogbook', [LogbookController::class, 'hapusLogbook'])->name('hapusLogbook');
+   
+
+
 });
 Route::post('/viewLaporan', [LaporanController::class, 'viewLaporan'])->name('viewLaporan');
+
+
+
 

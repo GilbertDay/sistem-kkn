@@ -9,7 +9,7 @@ class Logbook extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','padukuhan_id','taggal','isi','status'];
+    protected $fillable = ['user_id','padukuhan_id','taggal','isi','status', 'catatan'];
 
     public function padukuhan()
     {
@@ -20,4 +20,6 @@ class Logbook extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    
 }

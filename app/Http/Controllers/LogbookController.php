@@ -32,6 +32,8 @@ class LogbookController extends Controller
         $logbook->user_id = Auth::id();
         $logbook->isi = $request->isi;
         $logbook->tanggal = $request->tanggal;
+        $logbook->kegiatan = $request->kegiatan;
+        $logbook->catatan = $request->catatan;
         $logbook->padukuhan_id = $request->padukuhan_id;
         $logbook->save();
 
@@ -79,6 +81,8 @@ class LogbookController extends Controller
 
         $logbook->isi = $req->isi;
         $logbook->tanggal = $req->tanggal;
+        $logbook->catatan = $req->catatan;
+        $logbook->kegiatan = $req->kegiatan;
         $logbook->save();
 
         return redirect()->back();
@@ -95,4 +99,6 @@ class LogbookController extends Controller
         return redirect()->back();
 
     }
+
+    
 }

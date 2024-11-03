@@ -7,12 +7,13 @@
             <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Tahun</th>
-                    <th scope="col">Semester</th>
-                    <th scope="col">Lokasi</th>
-                    <th scope="col">Kecamatan</th>
-                    <th scope="col">Jumlah Kelompok</th>
-                    <th scope="col">Aksi</th>
+                    <th scope="col">TAHUN</th>
+                    <th scope="col">SEMESTER</th>
+                    <th scope="col">KECAMATAN</th>
+                    <th scope="col">KABUPATEN</th>
+                    <th scope="col">TEMA</th>
+                    <th scope="col">JUMLAH KELOMPOK</th>
+                    <th scope="col">AKSI</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,7 +24,9 @@
                     <td>{{ $r->semester }}</td>
                     <td>{{ $r->lokasi }}</td>
                     <td>{{ $r->kecamatan }}</td>
+                    <td>{{ $r->tema }}</td>
                     <td>{{ $r->padukuhans_count }}</td>
+                   
                     <td class="flex gap-2">
                         <a href="/padukuhan/{{ $r->id }}" type="submit"
                             class="p-2 text-black bg-yellow-400 rounded-lg"><i class="mr-1 fa-solid fa-eye"></i>View</a>
@@ -62,12 +65,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="lokasi" class="form-label">Lokasi</label>
+                            <label for="lokasi" class="form-label">Kecamatan</label>
                             <input type="text" class="form-control" id="lokasi" name="lokasi">
                         </div>
 
                         <div class="mb-3">
-                            <label for="kecamatan" class="form-label">Kecamatan</label>
+                            <label for="kecamatan" class="form-label">Kabupaten</label>
                             <input type="text" class="form-control" id="kecamatan" name="kecamatan">
                         </div>
 

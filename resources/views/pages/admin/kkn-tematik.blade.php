@@ -7,12 +7,13 @@
             <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Tahun</th>
-                    <th scope="col">Semester</th>
-                    <th scope="col">Lokasi</th>
-                    <th scope="col">Kecamatan</th>
-                    <th scope="col">Jumlah Kelompok</th>
-                    <th scope="col">Aksi</th>
+                    <th scope="col">TAHUN</th>
+                    <th scope="col">SEMESTER</th>
+                    <th scope="col">KECAMATAN</th>
+                    <th scope="col">KABUPATEN</th>
+                    <th scope="col">TEMA</th>
+                    <th scope="col">JUMLAH KELOMPOK</th>
+                    <th scope="col">AKSI</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                     <td>{{ $t->semester }}</td>
                     <td>{{ $t->lokasi }}</td>
                     <td>{{ $t->kecamatan }}</td>
+                    <td>{{ $t->tema }}</td>
                     <td>{{ $t->padukuhans_count }}</td>
                     <td class="flex gap-2">
                         <a href="/padukuhan/{{ $t->id }}" type="submit"
@@ -62,12 +64,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="lokasi" class="form-label">Lokasi</label>
+                            <label for="lokasi" class="form-label">Kecamatan</label>
                             <input type="text" class="form-control" id="lokasi" name="lokasi">
                         </div>
 
                         <div class="mb-3">
-                            <label for="kecamatan" class="form-label">Kecamatan</label>
+                            <label for="kecamatan" class="form-label">Kabupaten</label>
                             <input type="text" class="form-control" id="kecamatan" name="kecamatan">
                         </div>
 

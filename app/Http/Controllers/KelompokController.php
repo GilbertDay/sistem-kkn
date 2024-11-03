@@ -178,4 +178,5 @@ class KelompokController extends Controller
 
         return redirect()->route('kelompoks.index')->with('success', 'Kelompok deleted successfully.');
     }
+    
 }

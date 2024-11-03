@@ -79,8 +79,93 @@ class LaporanController extends Controller
     }
 
     public function viewLaporan(Request $req)
-    {
-        return response()->file(public_path($req->file),['Content-Type' => 'application/pdf']);
+{
+    // Ensure the 'file' parameter is present in the request
+    if (!$req->has('file')) {
+        return redirect()->back()->withErrors('File parameter is missing.');
     }
 
+    //  the file path
+    $filePath = public_path('storage/laporan_akhir/' . basename($req->file));
+
+    // Check if the file exists and output a detailed error if not
+    if (!file_exists($filePath)) {
+        return redirect()->back()->withErrors("File not found at path: $filePath");
+    }
+
+    // Serve the file as a response
+    return response()->file($filePath, [
+        'Content-Disposition' => 'inline; filename="' . basename($filePath) . '"'
+    ]);
+
+
 }
+public function edit($id)
+{
+    $laporan = Laporan::findOrFail($id);
+    return view('laporan.edit', compact('laporan'));
+}
+
+// Update the specified resource in storage
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'judul' => 'required|string|max:255',
+        'laporan_akhir' => 'file|mimes:pdf,doc,docx|max:2048',
+    ]);
+
+    $laporan = Laporan::findOrFail($id);
+    $laporan->judul = $request->judul;
+    
+    if ($request->hasFile('laporan_akhir')) {
+        $laporan->file = $request->file('laporan_akhir')->store('laporan');
+    }
+
+    $laporan->save();
+
+    return redirect()->route('laporan.index')->with('success', 'Laporan updated successfully.');
+}
+
+// Remove the specified resource from storage
+public function destroy($id)
+{
+    \Log::info('Delete attempt by User ID: ' . auth()->id() . ' for Laporan ID: ' . $id);
+
+    $laporan = Laporan::find($id);
+
+    if (!$laporan) {
+        \Log::error('Laporan not found: ' . $id);
+        return redirect()->back()->with('error', 'Laporan not found.');
+    }
+
+    // Check permissions
+    if (!auth()->user()->canDeleteLaporan()) {
+        \Log::error('Unauthorized delete attempt by User ID: ' . auth()->id());
+        return redirect()->back()->with('error', 'You do not have permission to delete this laporan.');
+    }
+
+    $laporan->delete();
+
+    \Log::info('Deleted Laporan ID: ' . $id);
+    return redirect()->back()->with('success', 'Laporan deleted successfully.');
+}
+
+public function canDeleteLaporan()
+{
+    // Logika untuk menentukan apakah pengguna dapat menghapus laporan
+    return $this->role === 'admin'; // Contoh logika
+}
+
+
+
+}
+
+
+
+    
+
+
+    
+    
+
+

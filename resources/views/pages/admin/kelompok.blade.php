@@ -75,13 +75,14 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="ketua_id" class="form-label">Ketua Kelompok</label>
-                            <select class="form-select" id="ketua_id" name="ketua_id">
-                                @foreach($siswa as $s)
-                                <option value="{{ $s->id }}">{{ $s->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+    <label for="ketua_id" class="form-label">Ketua Kelompok</label>
+    <select class="form-select" id="ketua_id" name="ketua_id">
+        @foreach($siswa as $s)
+            <option value="{{ $s->id }}">{{ $s->name }}</option>
+        @endforeach
+    </select>
+</div>
+
 
                         <div class="mb-3">
                             <label for="siswa-search" class="form-label">Anggota Kelompok</label>
