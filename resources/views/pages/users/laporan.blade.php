@@ -1,5 +1,13 @@
 <x-app-layout>
     <div class="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
+        <!-- Flash Message -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="flex flex-col gap-4">
             <button type="button" data-bs-toggle="modal" data-bs-target="#uploadLaporan"
                 class="p-2 font-semibold text-center bg-green-400 rounded-lg cursor-pointer hover:bg-slate-300">
@@ -9,7 +17,7 @@
                 <div class="text-xl text-white bg-gray-400 card-header">Riwayat Upload Laporan</div>
                 <div class="card-body">
                     @if($laporans->isEmpty())
-                        <tr>Belum Pernah Upload Laporan</tr>
+                        <p>Belum Pernah Upload Laporan</p>
                     @else
                         <table class="table">
                             <thead>
@@ -18,7 +26,7 @@
                                     <th scope="col">Judul</th>
                                     <th scope="col">Tanggal Upload</th>
                                     <th scope="col">File</th>
-                                    <th scope="col">Catatan</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -44,15 +52,17 @@
                                             @endif
                                         </td>
                                         <td>
+                                            <!-- Edit Button Trigger Modal -->
                                             <button type="button" class="btn btn-info" data-bs-toggle="modal" 
                                                 data-bs-target="#editLaporan{{ $laporan->id }}">
                                                 Edit
                                             </button>
-                                            <form action="{{ route('deleteLaporan', $laporan->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
+                                            
+                                            <!-- Delete Button Trigger Modal -->
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+                                                data-bs-target="#deleteLaporan{{ $laporan->id }}">
+                                                Delete
+                                            </button>
                                         </td>
                                     </tr>
 
@@ -65,9 +75,9 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <form action="{{ route('updateLaporan', $laporan->id) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
                                                     <div class="modal-body">
-                                                        @csrf
-                                                        @method('PUT')
                                                         <div class="mb-3">
                                                             <label for="judul" class="form-label">Judul Laporan</label>
                                                             <input type="text" class="form-control" name="judul" id="judul" value="{{ $laporan->judul }}" required />
@@ -80,6 +90,29 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                                         <button type="submit" class="btn btn-primary">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Delete Confirmation Modal -->
+                                    <div class="modal fade" id="deleteLaporan{{ $laporan->id }}" tabindex="-1" aria-labelledby="deleteLaporanLabel{{ $laporan->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteLaporanLabel{{ $laporan->id }}">Hapus Laporan</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('deleteLaporan', $laporan->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-body">
+                                                        Apakah Anda yakin ingin menghapus laporan ini?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
                                                     </div>
                                                 </form>
                                             </div>

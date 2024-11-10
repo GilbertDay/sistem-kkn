@@ -61,6 +61,6 @@ class LaporanPolicy
      */
     public function forceDelete(User $user, Laporan $laporan): bool
     {
-        //
+        return $user->id === $laporan->user_id; 
     }
 }

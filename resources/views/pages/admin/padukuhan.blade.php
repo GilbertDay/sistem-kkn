@@ -7,7 +7,7 @@
         <table class="table table-bordered">
             <thead >
                 <tr>
-                    <th scope="col">No</th>
+                    <th scope="col">No KELOMPOK</th>
                     <th scope="col">DPL</th>
                     <th scope="col">Telp DPL</th>
                     <th scope="col">APL</th>

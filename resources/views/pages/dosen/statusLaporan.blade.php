@@ -48,8 +48,8 @@
                                             <form action="{{route('viewLaporan')}}" target="_blank" method="POST">
                                                 @csrf
                                                 <input type="hidden" value="{{$lp->file}}" name="file">
-                                                <button type="submit" class="p-2 text-black bg-yellow-400 rounded-lg">
-                                                    <i class="mr-1 fa-solid fa-eye"></i>View
+                                                <button type="submit" class="p-2 text-white bg-gradient-to-r from-teal-400 to-blue-500 hover:from-blue-500 hover:to-teal-400 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-200">
+                                                    <i class="mr-1 fa-solid fa-eye"></i>Lihat laporan
                                                 </button>
                                             </form>
                                         </td>

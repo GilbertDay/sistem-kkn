@@ -47,6 +47,17 @@ Route::middleware(['auth:sanctum', 'user-access:2', 'verified'])->group(function
     Route::get('/kkn-reguler', [DaftarKknController::class, 'indexKknReguler'])->name('kkn-reguler');
     Route::get('/kkn-tematik', [DaftarKknController::class, 'indexKknTematik'])->name('kkn-tematik');
     Route::post('/tambahKkn', [DaftarKknController::class, 'tambahKkn'])->name('tambahKkn');
+    Route::get('/kkn', [DaftarKknController::class, 'index'])->name('kkn.index');
+    Route::put('/kkn/{id}/update', [DaftarKknController::class, 'update'])->name('kkn.update');
+    Route::delete('/kkn/{id}', [DaftarKknController::class, 'destroy'])->name('kkn.destroy');
+    Route::get('/kkn/tematik/{id}/edit', [DaftarKknController::class, 'edit'])->name('editKknTematik');
+    // Route to update a KKN record (for tematik or reguler)
+    Route::put('/kkn/tematik/{id}/update', [DaftarKknController::class, 'update'])->name('kkn.update');
+    Route::put('/kkn/tematik/{id}/update', [DaftarKknController::class, 'update'])->name('editKknTematik');
+    Route::delete('/kkn/tematik/{id}/delete', [DaftarKknController::class, 'destroy'])->name('deleteKknTematik');
+    Route::get('/tematik', [DaftarKknController::class, 'index'])->name('tematik.index');
+    Route::delete('/kkn/{id}', [DaftarKknController::class, 'delete'])->name('kkn.destroy');
+
 
 });
 
@@ -60,14 +71,11 @@ Route::middleware(['auth:sanctum', 'user-access:1', 'verified'])->group(function
 
     Route::post('/laporan/accept/{id}', [LaporanController::class, 'cekLaporan'])->name('acceptLaporan');
     Route::post('/laporan/reject/{id}', [LaporanController::class, 'reject'])->name('rejectLaporan');
-    
     Route::post('/laporan/upload', [LaporanController::class, 'store'])->name('uploadLaporan');
-Route::put('/laporan/update/{id}', [LaporanController::class, 'update'])->name('updateLaporan');
-Route::delete('/laporan/delete/{id}', [LaporanController::class, 'destroy'])->name('deleteLaporan');
-
-
-    
-
+    Route::put('/laporan/update/{id}', [LaporanController::class, 'update'])->name('updateLaporan');
+     Route::post('/laporan/{id}/reject', [LaporanController::class, 'reject'])->name('laporan.reject');
+  
+ 
 });
 
 Route::middleware(['auth:sanctum', 'user-access:0', 'verified'])->group(function () {
@@ -77,6 +85,8 @@ Route::middleware(['auth:sanctum', 'user-access:0', 'verified'])->group(function
     Route::post('/addLogbook', [LogbookController::class, 'addLogbook'])->name('addLogbook');
     Route::post('/editLogbook', [LogbookController::class, 'editLogbook'])->name('editLogbook');
     Route::post('/hapusLogbook', [LogbookController::class, 'hapusLogbook'])->name('hapusLogbook');
+    Route::delete('/deleteLaporan/{id}', [LaporanController::class, 'deleteLaporan'])->name('deleteLaporan');
+    Route::put('/laporan/update/{id}', [LaporanController::class, 'update'])->name('updateLaporan');
    
 
 

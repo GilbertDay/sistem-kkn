@@ -38,6 +38,7 @@ class LaporanController extends Controller
         })->get();
 
         return view('pages/dosen/StatusLaporan', compact('laporanTerima', 'laporanTolak','laporanProses'));
+        
     }
 
     public function cekLogbook(){
@@ -123,37 +124,44 @@ public function update(Request $request, $id)
 
     $laporan->save();
 
-    return redirect()->route('laporan.index')->with('success', 'Laporan updated successfully.');
+   
 }
 
 // Remove the specified resource from storage
-public function destroy($id)
+public function deleteLaporan($id)
 {
-    \Log::info('Delete attempt by User ID: ' . auth()->id() . ' for Laporan ID: ' . $id);
+    $laporan = Laporan::find($id); // Temukan laporan berdasarkan ID
+
+    if (!$laporan) {
+        return redirect()->back()->with('error', 'Laporan tidak ditemukan.');
+    }
+
+    try {
+        $laporan->delete(); // Hapus laporan
+        return redirect()->back()->with('success', 'Laporan berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal menghapus laporan: ' . $e->getMessage());
+    }
+}
+
+public function reject($id)
+{
+    // Cek apakah pengguna memiliki izin untuk menolak laporan
+    if (!auth()->user()->canDeleteLaporan()) {
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menolak laporan.');
+    }
 
     $laporan = Laporan::find($id);
 
     if (!$laporan) {
-        \Log::error('Laporan not found: ' . $id);
-        return redirect()->back()->with('error', 'Laporan not found.');
+        return redirect()->back()->with('error', 'Laporan tidak ditemukan.');
     }
 
-    // Check permissions
-    if (!auth()->user()->canDeleteLaporan()) {
-        \Log::error('Unauthorized delete attempt by User ID: ' . auth()->id());
-        return redirect()->back()->with('error', 'You do not have permission to delete this laporan.');
-    }
+    // Update status laporan menjadi 'rejected'
+    $laporan->status = 'rejected';
+    $laporan->save();
 
-    $laporan->delete();
-
-    \Log::info('Deleted Laporan ID: ' . $id);
-    return redirect()->back()->with('success', 'Laporan deleted successfully.');
-}
-
-public function canDeleteLaporan()
-{
-    // Logika untuk menentukan apakah pengguna dapat menghapus laporan
-    return $this->role === 'admin'; // Contoh logika
+    return redirect()->back()->with('success', 'Laporan telah berhasil ditolak.');
 }
 
 
