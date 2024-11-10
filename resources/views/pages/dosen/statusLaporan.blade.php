@@ -47,11 +47,22 @@
                                                 class="mr-1 fa-solid fa-eye"></i>View</button>
                                     </form>
                                 </td>
-                                <td>
-                                    <button type="button" class="p-2 text-black bg-green-400 rounded-lg">Terima</button>
-                                    <button type="button" data-bs-toggle="modal"
-                                        data-bs-target="#modalTolak{{ $lp->id }}"
-                                        class="p-2 text-black bg-red-500 rounded-lg">Tolak</button>
+                                <td >
+                                    <div class="flex items-center gap-6">
+
+                                        <form action="{{ route('laporanAccept', $lp->id) }}"  method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="flex items-center w-4 gap-1 text-4xl text-green-600 rounded-lg">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </button>
+                                        </form>
+                                        <button type="submit" data-bs-toggle="modal"
+                                        data-bs-target="#modalTolak{{ $lp->id }}" class="flex items-center w-4 gap-1 text-4xl text-red-600 rounded-lg">
+                                            <i class="fa-solid fa-circle-xmark"></i>
+                                        </button>
+                                    </div>
+
                                 </td>
                             </tr>
                             @endforeach
@@ -87,13 +98,13 @@
                                 <td>{{ $lt->judul }}</td>
 
                                 <td>{{ $lt->kelompok->nama_kelompok }}</td>
-                                <td>{{ $lt->kelompok->padukuhan->lokasi }}</td>
+                                <td>{{ $lt->kelompok->padukuhan->desa }}</td>
                                 <td>{{ $lt->kelompok->users->name }}</td>
                                 <td>
                                     <form action="{{route('viewLaporan')}}" target="_blank" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" value="{{$lp->file}}" name="file">
+                                        <input type="hidden" value="{{$lt->file}}" name="file">
                                         <button type="submit" class="p-2 text-black bg-yellow-400 rounded-lg"><i
                                                 class="mr-1 fa-solid fa-eye"></i>View</button>
                                     </form>
@@ -131,17 +142,19 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $lt->judul }}</td>
                                 <td>{{ $lt->kelompok->nama_kelompok }}</td>
-                                <td>{{ $lt->kelompok->padukuhan->lokasi }}</td>
+                                <td>{{ $lt->kelompok->padukuhan->desa }}</td>
                                 <td>{{ $lt->kelompok->users->name }}</td>
                                 <td>
                                     <form action="{{route('viewLaporan')}}" target="_blank" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" value="{{$lp->file}}" name="file">
+                                        <input type="hidden" value="{{$lt->file}}" name="file">
                                         <button type="submit" class="p-2 text-black bg-yellow-400 rounded-lg"><i
                                                 class="mr-1 fa-solid fa-eye"></i>View</button>
                                     </form>
                                 </td>
+                                <td>{{ $lt->catatan }}</td>
+
                             </tr>
                             @endforeach
                         </tbody>
@@ -162,11 +175,12 @@
                     <h5 class="modal-title" id="modalTolakLabel">Alasan Penolakan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('tolakLaporan') }}" method="POST">
+                <form action="{{  route('laporanReject', $lp->id) }}" method="POST">
                     <div class="modal-body">
                         @csrf
+                        @method('PUT')
                         <div class="mb-3">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="catatan" rows="3"></textarea>
                         </div>
 
                     </div>
@@ -187,7 +201,6 @@
             for (var i = 0; i < tables.length; i++) {
                 tables[i].style.display = 'none';
             }
-
             // Tampilkan tabel yang dipilih
             document.getElementById(tableId).style.display = 'block';
         }

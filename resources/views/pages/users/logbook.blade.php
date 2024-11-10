@@ -2,9 +2,15 @@
     <div class="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
             <div class="flex flex-col gap-4">
 
+
+
+                @if(Auth::user()->exist_group != 0)
                 <button type="button" data-bs-toggle="modal" data-bs-target="#addLogbook"
                     class="p-2 font-semibold text-center text-black bg-green-400 rounded-lg cursor-pointer hover:bg-slate-300">
                     Tambah Logbook</button>
+                @else
+                <div class="text-xl text-center text-grey-600 ">Anda belum memiliki kelompok</div>
+                @endif
 
 
                 <div class="card laporan-tabel" id="laporan-masuk">
@@ -68,7 +74,9 @@
                         <div class="modal-body">
                             @csrf
                             <input type="hidden" value="{{Auth::user()->id}}" name="user_id">
+                            @if(Auth::user()->exist_group != 0)
                             <input type="hidden" value="{{$kelompok->padukuhan_id}}" name="padukuhan_id">
+                            @endif
                             <div class="mb-3">
                                 <label for="isi" class="form-label">Kegiatan</label>
                                 <input type="text" class="form-control" name="isi" id="isi" rows="3" />

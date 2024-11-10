@@ -38,41 +38,6 @@ class LogbookController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreLogbookRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Logbook $logbook)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Logbook $logbook)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function editLogbook(Request $req)
     {
         $logbook = Logbook::find($req->id);
@@ -85,14 +50,24 @@ class LogbookController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function hapusLogbook(Request $req)
     {
         $logbook = Logbook::find($req->id);
         $logbook->delete();
         return redirect()->back();
+    }
 
+    public function accept($id){
+        $logbook = Logbook::find($id);
+        $logbook->status = 'diterima';
+        $logbook->save();
+        return redirect()->back();
+    }
+
+    public function reject($id){
+        $logbook = Logbook::find($id);
+        $logbook->status = 'ditolak';
+        $logbook->save();
+        return redirect()->back();
     }
 }

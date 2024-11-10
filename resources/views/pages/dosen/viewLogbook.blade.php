@@ -12,7 +12,7 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kegiatan</th>
                                     <th scope="col">Tanggal</th>
-                                    <th scope="col">Status</th>
+                                    <!-- <th scope="col">Status</th> -->
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -22,7 +22,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $l->isi }}</td>
                                     <td>{{ $l->tanggal }}</td>
-                                    <td>
+                                    <!-- <td>
                                         @if($l->status == 'proses')
                                         Proses
                                         @elseif($l->status == 'diterima')
@@ -30,13 +30,35 @@
                                         @elseif($l->status == 'ditolak')
                                         Ditolak
                                         @endif
-                                    </td>
-                                    <td>
-                                        <button type="button" class="p-2 text-black bg-green-400 rounded-lg">Terima</button>
-                                        <button type="button" data-bs-toggle="modal"
-                                            data-bs-target="#modalTolak{{ $l->id }}"
-                                            class="p-2 text-black bg-red-500 rounded-lg">Tolak</button>
-                                    </td>
+                                    </td> -->
+
+                                    @if($l->status != 'proses')
+                                        <td class="">
+                                            @if($l->status == 'diterima')
+                                            <div class="px-2 py-1 text-white bg-green-600 rounded-lg w-fit">Diterima</div>
+                                            @elseif($l->status == 'ditolak')
+                                            <div class="px-2 py-1 text-white bg-red-600 rounded-lg w-fit">Ditolak</div>
+                                            @endif
+                                        </td>
+                                    @else
+                                        <td class="flex gap-6">
+                                            <form action="{{ route('logbookAccept', $l->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="flex items-center w-4 gap-1 text-3xl text-green-600 rounded-lg">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('logbookReject', $l->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="flex items-center w-4 gap-1 text-3xl text-red-600 rounded-lg">
+                                                    <i class="fa-solid fa-circle-xmark"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    @endif
+
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -47,4 +69,6 @@
                 @endforeach
             </div>
 </div>
+
+
 </x-app-layout>

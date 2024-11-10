@@ -24,7 +24,7 @@ class DosenController extends Controller
         $logbooks = Logbook::with('user')
         ->where('padukuhan_id', $id) // Sesuaikan padukuhan_id jika diperlukan
         ->orderBy('user_id')
-        ->orderBy('tanggal')
+        ->orderBy('tanggal','DESC')
         ->get()
         ->groupBy('user_id');
 

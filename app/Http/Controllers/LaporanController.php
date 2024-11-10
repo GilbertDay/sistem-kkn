@@ -64,7 +64,6 @@ class LaporanController extends Controller
             'status' => 'proses',
             'file' => '/storage/'.$path,
         ]);
-        // Laporan::find($req->transaksi_id)->update(['laporan_akhir' => '/storage/'.$path]);
 
         return redirect('/');
 
@@ -75,4 +74,18 @@ class LaporanController extends Controller
         return response()->file(public_path($req->file),['Content-Type' => 'application/pdf']);
     }
 
+    public function accept(Request $req, $id){
+        $laporan = Laporan::find($id);
+        $laporan->status = 'diterima';
+        $laporan->save();
+        return redirect()->back();
+    }
+
+    public function reject(Request $req, $id){
+        $laporan = Laporan::find($id);
+        $laporan->status = 'ditolak';
+        $laporan->catatan = $req->catatan;
+        $laporan->save();
+        return redirect()->back();
+    }
 }
