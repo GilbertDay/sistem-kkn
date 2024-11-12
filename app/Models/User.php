@@ -27,6 +27,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nim',
+        'no_Telp',
+        'prodi',
+        'gender',
         'type',
         'exist_group',
     ];

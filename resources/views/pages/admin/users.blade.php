@@ -81,8 +81,31 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="nim" class="form-label">NIM/NIDN</label>
+                            <input type="number" class="form-control" id="nim" name="nim" >
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="no_telp" class="form-label">No Telp</label>
+                            <input type="text" class="form-control" id="no_telp" name="no_telp" >
+                        </div>
+
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="prodi" class="form-label">Prodi</label>
+                            <input type="text" class="form-control" id="prodi" name="prodi" >
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender" name="gender">
+                                <option value="Pria">Pria</option>
+                                <option value="Wanita">Wanita</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -126,8 +149,31 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="nim" class="form-label">{{$u->type == 0 ? 'NIM' : 'NIDN'}}</label>
+                            <input type="number" class="form-control" id="nim" name="nim" value="{{$u->type == 0 ? $u->nim : $u->nidn}}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="no_telp" class="form-label">No Telp</label>
+                            <input type="text" class="form-control" id="no_telp" name="no_telp" value="{{$u->no_telp}}">
+                        </div>
+
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="{{$u->email}}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="prodi" class="form-label">Prodi</label>
+                            <input type="text" class="form-control" id="prodi" name="prodi" value="{{$u->prodi}}" >
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender" name="gender">
+                                <option value="Pria">Pria</option>
+                                <option value="Wanita">Wanita</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">
