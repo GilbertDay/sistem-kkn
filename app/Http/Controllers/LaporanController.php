@@ -10,6 +10,7 @@ use App\Http\Requests\StoreLaporanRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateLaporanRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 
 class LaporanController extends Controller
@@ -71,8 +72,13 @@ class LaporanController extends Controller
 
     public function viewLaporan(Request $req)
     {
+        // Ambil nama file dari request
         return response()->file(public_path($req->file),['Content-Type' => 'application/pdf']);
     }
+    
+    
+    
+    
 
     public function accept(Request $req, $id){
         $laporan = Laporan::find($id);

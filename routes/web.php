@@ -45,8 +45,19 @@ Route::middleware(['auth:sanctum', 'user-access:2', 'verified'])->group(function
 
     Route::get('/kkn-reguler', [DaftarKknController::class, 'indexKknReguler'])->name('kkn-reguler');
     Route::get('/kkn-tematik', [DaftarKknController::class, 'indexKknTematik'])->name('kkn-tematik');
-    Route::post('/tambahKkn', [DaftarKknController::class, 'tambahKkn'])->name('tambahKkn');
+    Route::get('/kkn/{id}/edit', [DaftarKknController::class, 'edit'])->name('tematik.edit');
+    Route::get('/kkn/{id}/edit', [DaftarKknController::class, 'editTematik'])->name('editKkn');
+    Route::get('/kkn-tematik/{id}/edit', [DaftarKknController::class, 'editTematik'])->name('editTematik');
+    Route::get('/kkn', [DaftarKknController::class, 'index'])->name('kkn.index');
 
+    Route::put('/kkn/{id}', [DaftarKknController::class, 'update'])->name('tematik.update');
+    Route::delete('/kkn/{id}', [DaftarKknController::class, 'delete'])->name('tematik.destroy');
+    Route::put('/kkn/{id}/edit', [DaftarKknController::class, 'editKkn'])->name('editKkn');
+    Route::post('/tambahKkn', [DaftarKknController::class, 'tambahKkn'])->name('tambahKkn');
+    Route::put('/kkn/{id}/edit', [DaftarKknController::class, 'editTematik'])->name('editKkn');
+    Route::post('/kkn/{id}', [DaftarKknController::class, 'update'])->name('updateKkn');
+    Route::delete('/kkn/{id}/delete', [DaftarKknController::class, 'destroy'])->name('deleteKkn');
+    
 });
 
 Route::middleware(['auth:sanctum', 'user-access:1', 'verified'])->group(function () {
@@ -67,6 +78,7 @@ Route::middleware(['auth:sanctum', 'user-access:0', 'verified'])->group(function
     Route::post('/addLogbook', [LogbookController::class, 'addLogbook'])->name('addLogbook');
     Route::post('/editLogbook', [LogbookController::class, 'editLogbook'])->name('editLogbook');
     Route::post('/hapusLogbook', [LogbookController::class, 'hapusLogbook'])->name('hapusLogbook');
+    
 });
 Route::post('/viewLaporan', [LaporanController::class, 'viewLaporan'])->name('viewLaporan');
 

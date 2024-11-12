@@ -26,17 +26,28 @@ class LogbookController extends Controller
         return view('pages/users/logbook', compact('logbooks','kelompok'));
     }
 
-    public function addLogbook(Request $request){
-        // dd($request->all());
+    public function addLogbook(Request $request)
+    {
+        // Validate the incoming request to ensure required fields are filled
+        $request->validate([
+            'isi' => 'required|string',
+            'tanggal' => 'required|date',
+            'catatan' => 'nullable|string', // Allows 'catatan' to be empty
+            'padukuhan_id' => 'required|integer'
+        ]);
+    
+        // Create and save the logbook entry
         $logbook = new Logbook();
         $logbook->user_id = Auth::id();
         $logbook->isi = $request->isi;
         $logbook->tanggal = $request->tanggal;
+        $logbook->catatan = $request->catatan ?? ''; // Default to empty string if 'catatan' is NULL
         $logbook->padukuhan_id = $request->padukuhan_id;
         $logbook->save();
-
+    
         return redirect()->back();
     }
+    
 
     public function editLogbook(Request $req)
     {
@@ -44,6 +55,7 @@ class LogbookController extends Controller
 
         $logbook->isi = $req->isi;
         $logbook->tanggal = $req->tanggal;
+        $logbook->catatan = $req->catatan;
         $logbook->save();
 
         return redirect()->back();
