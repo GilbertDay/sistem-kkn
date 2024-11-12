@@ -25,6 +25,8 @@ use App\Http\Controllers\DosenController;
 
 Route::redirect('/', 'login');
 Route::get('/home', [Controller::class, 'index']);
+Route::get('/getKelompokMembers', [KelompokController::class, 'getKelompokMembers'])->name('getKelompokMembers');
+
 
 Route::middleware(['auth:sanctum', 'user-access:2', 'verified'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
@@ -39,9 +41,10 @@ Route::middleware(['auth:sanctum', 'user-access:2', 'verified'])->group(function
 
     Route::get('/kelompok/{padukuhan_id}', [KelompokController::class, 'tampil'])->name('kelompok');
     Route::post('/add-kelompoks', [KelompokController::class, 'tambahKelompok'])->name('addKelompoks');
-    Route::post('/edit-kelompoks', [KelompokController::class, 'editKelompok'])->name('editKelompoks');
+    Route::put('/edit-kelompoks', [KelompokController::class, 'editKelompok'])->name('editKelompoks');
     Route::post('/hapus-kelompoks', [KelompokController::class, 'hapusKelompok'])->name('hapusKelompoks');
     Route::get('/search-user', [KelompokController::class, 'searchSiswa'])->name('searchUsers');
+    Route::get('/search-user-edit', [KelompokController::class, 'searchSiswaEdit'])->name('searchUsersEdit');
 
     Route::get('/kkn-reguler', [DaftarKknController::class, 'indexKknReguler'])->name('kkn-reguler');
     Route::get('/kkn-tematik', [DaftarKknController::class, 'indexKknTematik'])->name('kkn-tematik');
