@@ -84,7 +84,6 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Judul</th>
-
                                 <th scope="col">Nama Kelompok</th>
                                 <th scope="col">Nama Padukuhan</th>
                                 <th scope="col">Ketua Kelompok</th>

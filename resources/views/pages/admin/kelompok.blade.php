@@ -42,11 +42,11 @@
                         @endforeach
                     </td>
                     <td>
-                        <a type="button" class="p-2 text-black bg-yellow-400 rounded-lg"><i
-                                class="mr-1 fa-solid fa-eye"></i>View</a>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#editKelompoks{{ $kelompoks->id }}"
+                        <!-- <a type="button" class="p-2 text-black bg-yellow-400 rounded-lg"><i
+                                class="mr-1 fa-solid fa-eye"></i>View</a> -->
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#editKelompoks"
                             class="p-2 text-black bg-blue-400 rounded-lg">Edit</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#hapusKelompoks{{ $kelompoks->id }}"
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#hapusKelompoks"
                             class="p-2 text-black bg-red-500 rounded-lg">Hapus</button>
                     </td>
                 </tr>
@@ -72,15 +72,6 @@
                         <div class="mb-3">
                             <label for="nama_kelompok" class="form-label">Nama Kelompok</label>
                             <input type="text" class="form-control" id="nama_kelompok" name="nama_kelompok">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="ketua_id" class="form-label">Ketua Kelompok</label>
-                            <select class="form-select" id="ketua_id" name="ketua_id">
-                                @foreach($siswa as $s)
-                                <option value="{{ $s->id }}">{{ $s->name }}</option>
-                                @endforeach
-                            </select>
                         </div>
 
                         <div class="mb-3">
@@ -110,31 +101,55 @@
         </div>
     <!-- Modal Update Kelompok -->
     @else
-    <div class="modal fade" id="editKelompoks{{ $kelompoks->id }}" tabindex="-1"
-        aria-labelledby="editKelompoksLabel{{ $kelompoks->id }}" aria-hidden="true">
+    <div class="modal fade" id="editKelompoks" tabindex="-1"
+        aria-labelledby="editKelompoksLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editKelompoksLabel{{ $kelompoks->id }}">Update Kelompok</h5>
+                    <h5 class="modal-title" id="editKelompoksLabel">Update Kelompok</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('editKelompoks', $kelompoks->id) }}" method="POST">
+                <form action="{{ route('editKelompoks') }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
+                        <input type="text" value="{{$kelompoks->id}}" id="kelompok_id" name="kelompok_id" hidden>
                         <div class="mb-3">
-                            <label for="nama_kelompok_edit{{ $kelompoks->id }}" class="form-label">Nama Kelompok</label>
-                            <input type="text" class="form-control" id="nama_kelompok_edit{{ $kelompoks->id }}"
+                            <label for="nama_kelompok_edit" class="form-label">Nama Kelompok</label>
+                            <input type="text" class="form-control" id="nama_kelompok_edit"
                                 name="nama_kelompok" value="{{ $kelompoks->nama_kelompok }}">
                         </div>
 
                         <div class="mb-3">
-                            <label for="siswa-search-edit{{ $kelompoks->id }}" class="form-label">Anggota Kelompok</label>
-                            <select id="siswa-search-edit{{ $kelompoks->id }}" name="dosen_id" class="w-full"></select>
-                            <div class="mt-2" id="selected-tags-edit{{ $kelompoks->id }}"></div>
+                            <label for="siswa-search" class="form-label">Anggota Kelompok</label>
+                            <select id="siswa-search" name="siswa-search" class="w-full"></select>
+                            <div class="mt-2" id="selected-tags"></div>
                             <!-- Input tersembunyi untuk menyimpan ID anggota yang dipilih -->
-                            <input type="hidden" id="selected_ids_edit{{ $kelompoks->id }}" name="selected_ids">
+                            <input type="hidden" id="selected_ids" name="selected_ids">
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="hapusKelompoks" tabindex="-1" aria-labelledby="hapusKelompoksLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hapusKelompoksLabel">Hapus Kelompok</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('hapusKelompoks') }}" method="POST">
+                    <div class="modal-body">
+                        @csrf
+                        <input type="text" class="form-control" id="kelompok_id" name="kelompok_id" value="{{$kelompoks->id}}" hidden>
+                        <p>Apakah anda yakin ingin menghapus kelompok ini?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -146,8 +161,14 @@
     </div>
     @endif
 
+
+
     <script>
         var myModal = new bootstrap.Modal(document.getElementById('tambahKelompoks'), {
+            keyboard: false,
+            focus: false
+        })
+        var myModal = new bootstrap.Modal(document.getElementById('editKelompoks'), {
             keyboard: false,
             focus: false
         })
@@ -189,7 +210,8 @@
                     delay: 250,
                     data: function (params) {
                         return {
-                            query: params.term
+                            query: params.term,
+                            kelompok_id: $('#kelompok_id').val()
                         };
                     },
                     processResults: function (data) {
@@ -240,6 +262,86 @@
                 $('#selected_ids').val(selectedIds.join(','));
             }
         });
+
+        $('#editKelompoks').on('shown.bs.modal', function () {
+        var selectedIds = [];
+
+        // Ambil anggota yang memiliki exist_group = 3
+        $.ajax({
+            url: "{{ route('getKelompokMembers') }}",  // Route baru untuk mengambil anggota dengan exist_group = 3
+            type: 'GET',
+            data: { kelompok_id: $('#kelompok_id').val() },
+            success: function(data) {
+                data.forEach(function(member) {
+                    selectedIds.push(member.id);
+                    addTag({ id: member.id, text: member.name }); // Tambahkan anggota sebagai tag
+                });
+                updateSelectedIdsField();
+            }
+        });
+
+        $('#siswa-search').select2({
+            placeholder: 'Cari Users...',
+            minimumInputLength: 0,
+            ajax: {
+                url: "{{ route('searchUsersEdit') }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        query: params.term,
+                        kelompok_id: $('#kelompok_id').val(),
+                        // selected_ids: selectedIds
+                    };
+                },
+                processResults: function (data) {
+                    var results = data.filter(function (item) {
+                        return !selectedIds.includes(item.id);
+                    }).map(function (item) {
+                        return {
+                            id: item.id,
+                            text: item.name
+                        };
+                    });
+
+                    return {
+                        results: results
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#siswa-search').on('select2:select', function (e) {
+            var selectedData = e.params.data;
+            selectedIds.push(selectedData.id);
+            addTag(selectedData);
+            $('#siswa-search').val(null).trigger('change');
+            updateSelectedIdsField();
+        });
+
+        function addTag(data) {
+            var tagHtml = '<span class="px-2 text-black bg-green-400 rounded-2xl tag">' + data.text +
+                ' <a href="#" class="remove-tag" data-id="' + data.id + '">×</a></span>';
+            $('#selected-tags').append(tagHtml);
+        }
+
+    $('#selected-tags').on('click', '.remove-tag', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        selectedIds = selectedIds.filter(function (selectedId) {
+            return selectedId !== id;
+        });
+        $(this).parent().remove();
+        $('#siswa-search').val(null).trigger('change');
+        updateSelectedIdsField();
+    });
+
+    function updateSelectedIdsField() {
+        $('#selected_ids').val(selectedIds.join(','));
+    }
+});
+
 
     </script>
 
